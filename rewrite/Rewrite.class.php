@@ -1,13 +1,21 @@
 <?php
 
+// fis.baidu.com
+
+if (!defined('__DIR__')) define ('__DIR__', dirname(__FILE__));
+
+require_once (__DIR__ . '/../constant.var.php');
 require (__DIR__ . '/Rule.class.php');
+
 class Rewrite {
     private $_rules = array();
     private $_configDir;
     private $_configFileList = array();
+    private $_charset;
 
-    public function __construct($configDir) {
+    public function __construct($configDir, $charset = 'utf-8') {
         $this->_configDir = $configDir;
+        $this->_charset = $charset;
     }
 
     public function addConfigFile($subpath) {
@@ -48,6 +56,35 @@ class Rewrite {
         }
     }
 
+    public function rewriteProcess($targetFile) {
+        $targetFile = realpath($targetFile);
+        if (!$targetFile) {
+            Log::getLogger()->warn('Rewrite.rewriteProcess the target file %s is not exists.', $targetFile);
+            return;
+        }
+        $ok = preg_match('@\.(\w+)$@', $targetFile, $match);
+        if ($ok) {
+            $MIME = require_once(ROOT . '/mimetype/mimetype.php');
+            $ext = $match[1];
+            Log::getLogger()->info('Rewrite.rewriteProcess the target file %s, Ext: %s', $targetFile, $ext);
+            if ($ext === 'php') {
+                require_once($targetFile);
+            } else {
+                $contentType = $MIME[$ext];
+                if (!$contentType) {
+                    $contentType = 'text/plain';
+                }
+                header('Content-Type: ' . $contentType . ';charset='.$this->_charset);
+                Log::getLogger()->info('Rewrite.rewriteProcess the target file %s, Content-Type: %s', $targetFile, $contentType);
+                echo file_get_contents($targetFile);
+            }
+        } else {
+            header('Content-Type: text/plain; charset=' . $this->_charset);
+            echo file_get_contents($targetFile);
+        }
+        exit();
+    }
+
     public function run($strUrl) {
         $url = $strUrl;
         if (isset($_SERVER['REQUIRE_URI'])) {
@@ -58,13 +95,14 @@ class Rewrite {
             if ($rule->match($url)) {
                 $target = $rule->fill($url);
                 if ($rule->type === Rule::REWRITE) {
-                    require(WWW_ROOT . '/' . $target);
+                    $this->rewriteProcess(WWW_ROOT . '/' . $target);
                     exit();
                 } else if ($rule->type === Rule::REDIRECT) {
                     header('Location: ' . $target);
                     exit();
                 } else if ($rule->type === Rule::RENDER) {
                     //@TODO
+                    return $target; //ugly, it's old code
                 }
                 break;
             }
