@@ -1,4 +1,5 @@
 <?php
+require_once(__DIR__ . '/../log/Log.class.php');
 require(__DIR__ . '/Mock.class.php');
 
 Log::getLogger(array(
