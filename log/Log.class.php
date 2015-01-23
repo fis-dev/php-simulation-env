@@ -1,0 +1,89 @@
+<?php
+// fis.baidu.com
+
+/**
+ * Log
+ */
+class Log {
+
+    const INFO = 0x00000001;
+    const DEBUG = 0x00000010;
+    const WARN = 0x0000100;
+    const ERROR = 0x00001000;
+    const ALL = 0x00001111;
+
+    public $fd = 'php://stdout';
+    public $level = 0;
+    public $prefix = '';
+
+    public function __construct($config) {
+        if (isset($config['fd'])) {
+            $this->fd = $config['fd'];
+        }
+
+        if (isset($config['level'])) {
+            $this->level = $config['level'];
+        }
+
+        if (isset($config['prefix'])) {
+            $this->prefix = $config['prefix'];
+        }
+    }
+
+    private function _log($level, $format, $messages) {
+        assert(is_array($messages));
+        if ($level & $this->level) {
+            array_unshift($messages, $format);
+            file_put_contents($this->fd, sprintf(
+                "%s %s %s\n",
+                $this->prefix,
+                date('Y-m-d H:i:s'),
+                call_user_func_array('sprintf', $messages)
+            ));
+        }
+    }
+
+    public function info() {
+        $fnArgs = func_get_args();
+        assert(count($fnArgs) >= 1);
+        if (count($fnArgs) == 1) {
+            array_unshift($fnArgs, '%s');
+        }
+        //format
+        $format = '[INFO] ' . array_shift($fnArgs);
+        $this->_log(Log::INFO, $format, $fnArgs);
+    }
+
+    public function debug() {
+        $fnArgs = func_get_args();
+        assert(count($fnArgs) >= 1);
+        if (count($fnArgs) == 1) {
+            array_unshift($fnArgs, '%s');
+        }
+        //format
+        $format = '[DEBUG] ' . array_shift($fnArgs);
+        $this->_log(Log::DEBUG, $format, $fnArgs);
+    }
+
+    public function warn() {
+        $fnArgs = func_get_args();
+        assert(count($fnArgs) >= 1);
+        if (count($fnArgs) == 1) {
+            array_unshift($fnArgs, '%s');
+        }
+        //format
+        $format = '[WARN] ' . array_shift($fnArgs);
+        $this->_log(Log::WARN, $format, $fnArgs);
+    }
+
+    public function error(Exception $err) {
+        //format
+        $this->_log(
+            Log::ERROR,
+            '[ERROR] %s',
+            array(
+                sprintf('MSG: %s, TRACE: %s', $err->getMessage(), implode('----', $err->getTrace()))
+            )
+        );
+    }
+}
