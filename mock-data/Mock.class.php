@@ -1,10 +1,12 @@
 <?php
 // fis.baidu.com
 
+
 require(__DIR__ . '/constant.var.php');
+
+require_once(ROOT . '/../log/Log.class.php');
 require(ROOT . '/Util.class.php');
 require(ROOT . '/File.class.php');
-require(ROOT . '/../log/Log.class.php');
 require(ROOT . '/filetype/PHP.class.php');
 require(ROOT . '/filetype/JSON.class.php');
 
@@ -18,10 +20,8 @@ class Mock {
         '.json'
     );
 
-    static public function init($root, $encoding = 'utf-8') {
-        Mock::$logger = new Log(array(
-            'level' => Log::ALL
-        ));
+    static public function init($root, $encoding = 'utf-8', array $opt = array()) {
+        Mock::$logger = Log::getLogger();
         $root = Util::normalizePath($root);
         Mock::$wwwRoot = $root;
         Mock::$testPath = $root . '/test';

@@ -15,6 +15,7 @@ class Log {
     public $fd = 'php://stdout';
     public $level = 0;
     public $prefix = '';
+    static private $_logger = null;
 
     public function __construct($config) {
         if (isset($config['fd'])) {
@@ -30,6 +31,13 @@ class Log {
         }
     }
 
+    static public function getLogger(array $config = array()) {
+        if (!Log::$_logger) {
+            Log::$_logger = new Log($config);
+        }
+        return Log::$_logger;
+    }
+
     private function _log($level, $format, $messages) {
         assert(is_array($messages));
         if ($level & $this->level) {
@@ -39,7 +47,7 @@ class Log {
                 $this->prefix,
                 date('Y-m-d H:i:s'),
                 call_user_func_array('sprintf', $messages)
-            ));
+            ), FILE_APPEND);
         }
     }
 
