@@ -17,10 +17,9 @@ Simulation env for fis-plus
 
 ## Component
 
-all component depends on `log`
+all component depends on `log`, except itself
 
-
-brefore init
+so, use one before init `log`
 
 ```php
 require(ROOT . '/log/Log.class.php');
