@@ -94,7 +94,7 @@ $rewrite = new Rewrite('<config-base-dir>', '<charset>');
 
 // nice, all static mapping to a dir
 
-$rewrite->addRule(new Rule(Rule::REWRITE, '@/static/*@', 'public/$0'));
+$rewrite->addRule(new Rule(Rule::REWRITE, '@/static/.*@', 'public/$&'));
 
 // match from top to bottom
 $rewrite->addConfigFile('home-server.conf');

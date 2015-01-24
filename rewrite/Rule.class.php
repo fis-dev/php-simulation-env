@@ -63,7 +63,7 @@ class Rule {
         $this->_rel = $match;
         $ret = $this->value;
         if ($match) {
-            $ret = preg_replace_callback('/\$(\d+)/', array($this, 'replaceDefine'), $this->value);
+            $ret = preg_replace_callback('/\$(\d+|&)/', array($this, 'replaceDefine'), $this->value);
         }
         $this->_rel = array();
         return $ret;
@@ -71,9 +71,13 @@ class Rule {
 
     public function replaceDefine($match) {
         $idx = $match[1];
-        if (isset($this->_rel[$idx])) {
+
+        if ($idx === '&') {
+            return $this->_rel[0];
+        } else if (isset($this->_rel[$idx])) {
             return $this->_rel[$idx];
         }
+
         return $match[0];
     }
 }
