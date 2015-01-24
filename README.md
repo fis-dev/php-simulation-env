@@ -81,6 +81,9 @@ some mimetype
 
 ```php
 // read the code
+
+$MIME = requier(ROOT . '/mimetype/mimetype.php');
+
 ```
 
 ### `rewrite`
