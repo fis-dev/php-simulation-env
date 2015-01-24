@@ -103,9 +103,17 @@ $rewrite->dispatch($_SERVER['REQUEST_URI']);
 
 - `<config-base-dir>` config files are placed in the dir
 - `<charset>` header charset
+- config file format
 
+    ```config
+    # <type> <reg> <target>
+    rewrite     \/ajax\/(.*)    test/ajax/$1.php
+    redirect    \/?$            /home/page/index
+    ```
+    - rewrite target file relative to `WWW_ROOT`
 
 ---
+
 ## task roadmap
 
 - [ ] Update to `fis-plus`
