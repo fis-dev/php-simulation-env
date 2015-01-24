@@ -108,5 +108,5 @@ $rewrite->dispatch($_SERVER['REQUEST_URI']);
 ---
 ## task roadmap
 
-[ ] Update to `fis-plus`
-[ ] Add it to some framework, such as `thinkphp`, `yii`, `laveral`
+- [ ] Update to `fis-plus`
+- [ ] Add it to some framework, such as `thinkphp`, `yii`, `laveral`
