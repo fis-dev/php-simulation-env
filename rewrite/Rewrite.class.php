@@ -52,6 +52,8 @@ class Rewrite {
                     $splitLineArr = preg_split('/\s+/', $line);
                     $this->addRule($splitLineArr[0], '/' . $splitLineArr[1] . '/', $splitLineArr[2]);
                 }
+            } else {
+                Log::getLogger()->info('Rewrite config file not exists: %s', $realpath);
             }
         }
     }
@@ -85,11 +87,16 @@ class Rewrite {
         exit();
     }
 
-    public function dispatch($strUrl) {
+    public function dispatch($strUrl = null) {
         $url = $strUrl;
         if (isset($_SERVER['REQUIRE_URI'])) {
             $url = $_SERVER['REQUIRE_URI'];
         }
+
+        if (!$url) {
+            return;
+        }
+
         $this->_parse();
         foreach ($this->_rules as $rule) {
             if ($rule->match($url)) {
