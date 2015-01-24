@@ -15,6 +15,7 @@ class Log {
     public $fd = 'php://stdout';
     public $level = 0;
     public $prefix = '';
+    public $requestUrl = '';
     static private $_logger = null;
 
     public function __construct($config) {
@@ -28,6 +29,10 @@ class Log {
 
         if (isset($config['prefix'])) {
             $this->prefix = $config['prefix'];
+        }
+
+        if (isset($config['requestUrl'])) {
+            $this->requestUrl = $config['requestUrl'];
         }
     }
 
@@ -43,10 +48,11 @@ class Log {
         if ($level & $this->level) {
             array_unshift($messages, $format);
             file_put_contents($this->fd, sprintf(
-                "%s %s %s\n",
+                "%s %s %s [%s]\n",
                 $this->prefix,
                 date('Y-m-d H:i:s'),
-                call_user_func_array('sprintf', $messages)
+                call_user_func_array('sprintf', $messages),
+                $this->requestUrl
             ), FILE_APPEND);
         }
     }
