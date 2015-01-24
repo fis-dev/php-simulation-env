@@ -74,7 +74,7 @@ Map:
 
 |template file| data file|
 |:-------------|:-------------|
-|`<template_dir>`/home/page/index.tpl| `<data_dir>`/home/page/index.{php|json}|
+|`<template_dir>`/home/page/index.tpl| `<data_dir>`/home/page/index.`{php|json}`|
 
 ### `mimetype`
 
