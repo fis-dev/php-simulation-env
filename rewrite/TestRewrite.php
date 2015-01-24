@@ -14,4 +14,4 @@ $rewrite = new Rewrite(__DIR__ . '/test');
 $rewrite->addConfigFile('home.conf');
 $rewrite->addConfigFile('common.conf');
 
-$rewrite->run('/home/test');
+$rewrite->dispatch('/home/test');

@@ -15,10 +15,14 @@ class Rule {
     private $_rel = array();
     
     public function __construct($type, $reg, $value) {
-        if (!is_string($type) || trim($type) === '') {
+        if (is_numeric($type)) {
+            $this->type = $type;
+        } else if (is_string($type) && trim($type) !== '') {
+            $this->type = $this->_parse($type);
+        } else {
             Log::getLogger()->error(new Exception('Rule `type` must be asign.'));
         }
-        $this->type = $this->_parse($type);
+
         $this->reg = $reg;
         $this->value = $value;
     }

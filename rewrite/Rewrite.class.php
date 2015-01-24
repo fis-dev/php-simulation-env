@@ -85,7 +85,7 @@ class Rewrite {
         exit();
     }
 
-    public function run($strUrl) {
+    public function dispatch($strUrl) {
         $url = $strUrl;
         if (isset($_SERVER['REQUIRE_URI'])) {
             $url = $_SERVER['REQUIRE_URI'];
