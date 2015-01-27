@@ -7,11 +7,16 @@ if (!defined('__DIR__')) define ('__DIR__', dirname(__FILE__));
 require_once (__DIR__ . '/../constant.var.php');
 require (__DIR__ . '/Rule.class.php');
 
+interface RewriteHandle {
+    public function process($file);
+}
+
 class Rewrite {
     private $_rules = array();
     private $_configDir;
     private $_configFileList = array();
     private $_charset;
+    private $_factoryHandles = array();
 
     public function __construct($configDir, $charset = 'utf-8') {
         $this->_configDir = $configDir;
@@ -20,6 +25,10 @@ class Rewrite {
 
     public function addConfigFile($subpath) {
         array_push($this->_configFileList, $subpath);
+    }
+
+    public function addRewriteHandle($ext, RewriteHandle $handle) {
+        $this->_factoryHandles[$ext] = $handle;
     }
 
     public function addRule($type, $reg, $value) {
@@ -71,6 +80,9 @@ class Rewrite {
             Log::getLogger()->info('Rewrite.rewriteProcess the target file %s, Ext: %s', $targetFile, $ext);
             if ($ext === 'php') {
                 require_once($targetFile);
+            } else if (isset($this->_factoryHandles[$ext])) { 
+                $handle = $this->_factoryHandles[$ext];
+                $handle->process($targetFile);
             } else {
                 $contentType = $MIME[$ext];
                 if (!$contentType) {
