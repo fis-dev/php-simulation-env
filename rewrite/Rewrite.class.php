@@ -120,8 +120,13 @@ class Rewrite {
                     header('Location: ' . $target);
                     exit();
                 } else if ($rule->type === Rule::RENDER) {
-                    //@TODO
-                    return $target; //ugly, it's old code
+                    //@TODO ugly, it's old code
+                    if (isset($this->_factoryHandles['tpl'])) {
+                        $handle = $this->_factoryHandles['tpl'];
+                        $handle->process($target);
+                    } else {
+                        Log::getLogger()->warn('Rewirte.dispatch Not found process handle of the tpl template file.');
+                    }
                 }
                 break;
             }
