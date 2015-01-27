@@ -140,5 +140,5 @@ $rewrite->addRewriteHandle('tpl', new TplRewirteHandle($smarty));
 
 ## task roadmap
 
-- [ ] Update to `fis-plus`
+- [x] Update to `fis-plus`
 - [ ] Add it to some framework, such as `thinkphp`, `yii`, `laveral`
