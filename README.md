@@ -104,6 +104,27 @@ $rewrite->addConfigFile('common-server.conf');
 $rewrite->dispatch($_SERVER['REQUEST_URI']);
 ```
 
+Add special process handle:
+
+```php
+
+class TplRewirteHandle implements RewriteHandle {
+    private $_smarty = null;
+
+    public function __construct($smarty) {
+        $this->_smarty = $smarty;
+    }
+
+    public function process($file) {
+        $this->_smarty->assign(Mock::getData($file));
+        $this->_smarty->display($file);
+    }
+}
+
+$rewrite->addRewriteHandle('tpl', new TplRewirteHandle($smarty));
+
+```
+
 - `<config-base-dir>` config files are placed in the dir
 - `<charset>` header charset
 - config file format
