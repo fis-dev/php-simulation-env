@@ -12,7 +12,7 @@ Simulation env for fis-plus
 - `WWW_ROOT` web document root path
 
     ```php
-    define('ROOT', dirname(__DIR__));
+    define('WWW_ROOT', dirname(__DIR__));
     ```
 
 ## Component
