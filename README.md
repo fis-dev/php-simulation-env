@@ -54,7 +54,7 @@ Options:
         'level' => Log::ALL & ~Log::DEBUG //not record debug log
     );
     ```
-    
+
 ### `util`
 
 - detail from source code
@@ -96,7 +96,7 @@ some mimetype
 ```php
 // read the code
 
-$MIME = requier(ROOT . '/mimetype/mimetype.php');
+$MIME = require(ROOT . '/mimetype/mimetype.php');
 
 ```
 
