@@ -54,6 +54,20 @@ Options:
         'level' => Log::ALL & ~Log::DEBUG //not record debug log
     );
     ```
+    
+### `util`
+
+- detail from source code
+
+```php
+require(ROOT . '/util/Util.class.php');
+
+$string = "我爱我中华"
+
+if (Util::isUtf8($string)) {
+    echo 'utf8';
+}
+```
 
 ### `mock-data`
 
