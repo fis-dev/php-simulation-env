@@ -2,10 +2,8 @@
 
 // fis.baidu.com
 
-if (!defined('__DIR__')) define ('__DIR__', dirname(__FILE__));
-
-require_once (__DIR__ . '/../constant.var.php');
-require (__DIR__ . '/Rule.class.php');
+require_once (dirname(__FILE__) . '/../constant.var.php');
+require (dirname(__FILE__) . '/Rule.class.php');
 
 interface RewriteHandle {
     public function process($file);

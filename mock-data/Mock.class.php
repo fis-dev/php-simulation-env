@@ -1,16 +1,14 @@
 <?php
 // fis.baidu.com
 
-if (!defined('__DIR__')) define ('__DIR__', dirname(__FILE__));
-
 // use component
-require_once(__DIR__ . '/../constant.var.php');
-require_once(__DIR__ . '/../log/Log.class.php');
-require_once(__DIR__ . '/../util/Util.class.php');
+require_once(dirname(__FILE__) . '/../constant.var.php');
+require_once(dirname(__FILE__) . '/../log/Log.class.php');
+require_once(dirname(__FILE__) . '/../util/Util.class.php');
 
-require(__DIR__ . '/File.class.php');
-require(__DIR__ . '/filetype/PHP.class.php');
-require(__DIR__ . '/filetype/JSON.class.php');
+require(dirname(__FILE__) . '/File.class.php');
+require(dirname(__FILE__) . '/filetype/PHP.class.php');
+require(dirname(__FILE__) . '/filetype/JSON.class.php');
 
 class Mock {
     static public $logger = null; //logger

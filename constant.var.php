@@ -2,5 +2,5 @@
 
 // fis.baidu.com
 
-if (!defined('WWW_ROOT')) define ('WWW_ROOT', __DIR__ . '/../');
-if (!defined('ROOT')) define ('ROOT', __DIR__ . '/');
+if (!defined('WWW_ROOT')) define ('WWW_ROOT', dirname(__FILE__) . '/../');
+if (!defined('ROOT')) define ('ROOT', dirname(__FILE__) . '/');
