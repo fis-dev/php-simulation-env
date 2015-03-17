@@ -105,7 +105,12 @@ class Rewrite {
 
         foreach ($this->_rules as $rule) {
             if ($rule->match($url)) {
+                if ($rule->type !== Rule::REDIRECT) {
+                    $url = preg_replace('@\?.*$@', '', $url);
+                }
+
                 $target = $rule->fill($url);
+                
                 if ($rule->type === Rule::REWRITE) {
                     $this->rewriteProcess(WWW_ROOT . '/' . $target);
                 } else if ($rule->type === Rule::REDIRECT) {
