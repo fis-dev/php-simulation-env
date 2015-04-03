@@ -62,10 +62,10 @@ class Rewrite {
         }
     }
 
-    public function rewriteProcess($targetFile) {
-        $targetFile = realpath($targetFile);
+    public function rewriteProcess($target) {
+        $targetFile = realpath($target);
         if (!$targetFile) {
-            Log::getLogger()->warn('Rewrite.rewriteProcess the target file %s is not exists.', $targetFile);
+            Log::getLogger()->warn('Rewrite.rewriteProcess the target file %s is not exists.', $target);
             return;
         }
         $ok = preg_match('@\.(\w+)$@', $targetFile, $match);
