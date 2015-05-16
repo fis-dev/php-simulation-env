@@ -46,6 +46,13 @@ class Log {
     private function _log($level, $format, $messages) {
         assert(is_array($messages));
         if ($level & $this->level) {
+            if (is_file($this->fd)) {
+                $mtime = filemtime($this->fd);
+                if (time() >= $mtime + 3600 * 24) {
+                    file_put_contents($this->fd . '-' . date('Y-m-d', $mtime + 3600 * 24), file_get_contents($this->fd));
+                    file_put_contents($this->fd, ''); //reset
+                }
+            }
             array_unshift($messages, $format);
             file_put_contents($this->fd, sprintf(
                 "%s %s %s [%s]\n",
